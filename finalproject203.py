@@ -13,17 +13,14 @@ def wind_turbine_dynamics(state, control_input, wind_speed):
     rotor_speed, generator_torque = state
     blade_pitch_angle = control_input[0]
 
-    # Simplified aerodynamic torque equation
     aerodynamic_torque = K * wind_speed * (1 - blade_pitch_angle / 90)
 
-    # Rotor speed dynamics
     rotor_speed_dot = (aerodynamic_torque - generator_torque - B * rotor_speed) / J
 
     # Update state
     new_rotor_speed = rotor_speed + rotor_speed_dot
     new_generator_torque = control_input[1]  # Assume generator torque is directly controlled
 
-    # Power output (simplified)
     power_output = generator_torque * rotor_speed
 
     return np.array([new_rotor_speed, new_generator_torque]), power_output
